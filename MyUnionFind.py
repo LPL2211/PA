@@ -1,4 +1,9 @@
-# EXPECTED OUTCOME AFTER TESTING WITH tinyUF.txt SHOULD BE 10 16 4 16. Mine is 10 -1 4 -1. Need to fix
+# EXPECTED OUTCOME AFTER TESTING WITH tinyUF.txt SHOULD BE 10 16 4 16. It means
+# number of p or q: 10
+# Time when starting nonisolated: 16
+# Time when being giant: 4
+# Time when being connected: 16
+# My outcome from this code is wrong. Need to fix!
 
 from algs4.stdlib import stdio
 from algs4.stdlib import stdrandom
