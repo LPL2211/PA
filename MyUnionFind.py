@@ -1,3 +1,5 @@
+# EXPECTED OUTCOME AFTER TESTING WITH tinyUF.txt SHOULD BE 10 16 4 16. Mine is 10 -1 4 -1. Need to fix
+
 from algs4.stdlib import stdio
 from algs4.stdlib import stdrandom
 from algs4.stdlib import stdstats
