@@ -1,3 +1,17 @@
+# Modify Union Find 
+# Read tinyUF.txt
+# Expected outcomes:10 16 4 16, as:
+#### Number of items in each sequence: N = 10
+#### When non isolated: T = 16
+#### When become giant: T = 4
+#### When all connected: T = 16
+
+# However, outcome from this source code: 10 -1 4 -1, 
+# which means there are problems with non isolated and connected functions. 
+# Need to fix!
+
+
+
 from algs4.stdlib import stdio
 from algs4.stdlib import stdrandom
 from algs4.stdlib import stdstats
