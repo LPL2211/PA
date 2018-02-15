@@ -1,5 +1,5 @@
 # Modify Union Find 
-# Read tinyUF.txt
+# Read tinyUF.txt from command line: python3 GiantBook.py <tinyUF.txt
 # Expected outcomes:10 16 4 16, as:
 #### Number of items in each sequence: N = 10
 #### When non isolated: T = 16
