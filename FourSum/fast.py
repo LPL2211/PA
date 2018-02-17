@@ -1,3 +1,8 @@
+# Prints True if found False if unfound
+
+### Problem needs to fix: it didn't pass A_50weed1.txt. Outcome should be: True but it turned out False
+
+
 from __future__ import print_function
 import sys
  
