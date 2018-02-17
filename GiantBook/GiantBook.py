@@ -1,20 +1,5 @@
-# Modify Union Find 
-# Read tinyUF.txt from command line: python3 GiantBook.py <tinyUF.txt
-# Expected outcomes:10 16 4 16, as:
-#### Number of items in each sequence: N = 10
-#### When non isolated: T = 16
-#### When become giant: T = 4
-#### When all connected: T = 16
 
-# However, outcome from this source code: 10 -1 4 -1, 
-# which means there are problems with non isolated and connected functions. 
-# Need to fix!
-
-
-
-from algs4.stdlib import stdio
-from algs4.stdlib import stdrandom
-from algs4.stdlib import stdstats
+TESTCASES_FILE = "tinyUF.txt"
 
 
 class MyUnionFind:
@@ -52,7 +37,7 @@ class MyUnionFind:
         component containing site q.
         :param p: the integer representing one site
         :param q: the integer representing the other site
-         """
+        """
         root_p = self.find(p)
         root_q = self.find(q)
         if root_p == root_q:
@@ -67,11 +52,8 @@ class MyUnionFind:
         self._parent[small] = large
         self._size[large] += self._size[small]
 
-        # UPDATE MAX NUMBER OF SITES --- MODIFIED
-        if self._maxsites < self._size[root_q]:
-            self._maxsites = self._size[root_q]
-        if self._maxsites < self._size[root_p]:
-            self._maxsites = self._size[root_p]
+        if self._size[large] > self._maxsites:
+            self._maxsites = self._size[large]
 
         if p in self._isolated:
             self._isolated.remove(p)
@@ -83,17 +65,30 @@ class MyUnionFind:
 
     def isnonisolated(self):
         """
-        If there is no isolated component
-        :return: the nonisolated component
+        Checks if there are no isolated components
+        :return: True if there are no isolated components, else False
         """
 
-        if len(self._isolated) == 0:
-            return True
-        else:
-            return False
+        return len(self._isolated) == 0
 
+    def connected(self, p, q):
+        """
+        Returns true if the two sites are in the same component.
+
+        :param p: the integer representing one site
+        :param q: the integer representing the other site
+        :return:  true if the two sites p and q are in the same component;
+                  false otherwise
+        """
+        return self.find(p) == self.find(q)
+
+    @property
     def maxsites(self):
         return self._maxsites
+
+    @property
+    def count(self):
+        return self._count
 
     def find(self, p):
         """
@@ -103,67 +98,41 @@ class MyUnionFind:
         :return: the component identifier for the component containing site p
         """
         self._validate(p)
-        while p != self._parent[p]:
-            p = self._parent[p]
-        return p
+        parent = self._parent[p]
 
-    def connected(self, p, q):
-        """
-        Returns true if the two sites are in the same component.
+        if parent == p:
+            return parent
 
-        :param p: the integer representing one site
-        :param q: the integer representing the other site
-        :return: true if the two sites p and q are in the same component; false otherwise
-        """
-        return self.find(p) == self.find(q)
+        # path compression
+        self._parent[p] = self.find(parent)
 
-    def count(self):
-        return self._count
+        return self._parent[p]
 
 
-# GiantBook
+n = None
+links = []
 
-t = 1
-#n = 100
-n = stdio.readInt()
+with open(TESTCASES_FILE, 'r') as f:
+    contents = f.readlines()
+    n = int(contents[0].strip())
+    links = [tuple(map(int, link.split())) for link in contents[1:]]
+
+giant, connected, non_isolated = None, None, None
+
 uf = MyUnionFind(n)
+round_num = 0
 
-connectList = list()
-nonisolatedList = list()
-giantList = list()
+for u, v in links:
+    round_num += 1
 
-giant = - 1
-nonisolated = -1
-connected = -1
+    uf.union(u, v)
 
-for j in range(t):
-    giantList.append(giant)
-    nonisolatedList.append(nonisolated)
-    connectList.append(connected)
+    if not non_isolated and uf.isnonisolated():
+        non_isolated = round_num
+    if not giant and uf.maxsites >= n * 0.5:
+        giant = round_num
+    if not connected and uf.count == 1:
+        connected = round_num
 
-    for i in range(n):
-        #  p = stdrandom.uniformInt(0, n)
-        #  q = stdrandom.uniformInt(0, n)
-        p = stdio.readInt()
-        q = stdio.readInt()
 
-        #  Check if nonisolated exists
-        if uf.isnonisolated() and nonisolated == -1:
-            nonisolated = i
-        #  Check if giant component exists
-        if uf.maxsites() >= n * 0.5 and giant == -1:
-            giant = i
-        # Connect
-        if uf.count() == 1:
-            connected = i
-
-        # Union p, q
-        if uf.connected(p, q):
-            continue
-        uf.union(p, q)
-
-        giantList[j] = giant
-        nonisolatedList[j] = nonisolated
-        connectList[j] = connected
-
-    print(n, nonisolated, giant, connected, end=" ")
+print(giant, connected, non_isolated)
