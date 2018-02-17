@@ -136,4 +136,4 @@ print(n, non_isolated, giant, connected)
 
 ###### request to change: please set the code work when n, u, v are random integers
 ###### Teacher said: You should be able to detect the emergence of a giant component for N = 1000, 000 
-###### within a minute on a modern machine. If not, something is wrong. Using weighted quick-union (with path compression).
+###### within a minute on a modern machine. If not, something is wrong. Using weighted quick-union (with path compression)
