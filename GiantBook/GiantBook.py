@@ -105,8 +105,7 @@ class MyUnionFind:
 
         return self._parent[p]
 
-## it is required to use stdio library to read number here
-## IF I USE mediumUF.txt, it return 625 None 595 None which seems incorrect
+## it is required to use stdio library to read number here. Run code from command lineas below: python3 GiantBook.py <tinyUF.txt
 #n = 10
 n = stdio.readInt()
 
