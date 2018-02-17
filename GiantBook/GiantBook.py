@@ -1,6 +1,5 @@
-
-TESTCASES_FILE = "tinyUF.txt"
-
+import sys
+from algs4.stdlib import stdio, stdrandom, stdstats
 
 class MyUnionFind:
     """
@@ -74,7 +73,6 @@ class MyUnionFind:
     def connected(self, p, q):
         """
         Returns true if the two sites are in the same component.
-
         :param p: the integer representing one site
         :param q: the integer representing the other site
         :return:  true if the two sites p and q are in the same component;
@@ -93,7 +91,6 @@ class MyUnionFind:
     def find(self, p):
         """
         Returns the component identifier for the component containing site p.
-
         :param p: the integer representing one site
         :return: the component identifier for the component containing site p
         """
@@ -108,21 +105,22 @@ class MyUnionFind:
 
         return self._parent[p]
 
-
-n = None
-links = []
-
-with open(TESTCASES_FILE, 'r') as f:
-    contents = f.readlines()
-    n = int(contents[0].strip())
-    links = [tuple(map(int, link.split())) for link in contents[1:]]
+## it is required to use stdio library to read number here
+## IF I USE mediumUF.txt, it return 625 None 595 None which seems incorrect
+#n = 10
+n = stdio.readInt()
 
 giant, connected, non_isolated = None, None, None
 
 uf = MyUnionFind(n)
 round_num = 0
 
-for u, v in links:
+while not stdio.isEmpty():
+    u = stdio.readInt()
+    v = stdio.readInt()
+    #u = stdrandom.uniformInt(0, n) ##IF I WANT TO TEST WITH RANDOM NUMBER, CODE DOESN'T WORK
+    #v = stdrandom.uniformInt(0, n)
+
     round_num += 1
 
     uf.union(u, v)
@@ -135,4 +133,6 @@ for u, v in links:
         connected = round_num
 
 
-print(giant, connected, non_isolated)
+print(n, non_isolated, giant, connected)
+
+###### request to change: please set the code work when n, u, v are random integers
