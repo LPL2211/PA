@@ -1,3 +1,7 @@
+## Still doesn't work with random number (see below)
+## Get error when finding mean and sdtdev using stdstats. TypeError: 'int' object is not iterable
+## What is T in this source code?
+
 from __future__ import division
 
 from algs4.stdlib import stdio, stdrandom, stdstats
@@ -137,3 +141,5 @@ if __name__ == '__main__':
             connected = round_num
 
     print(n, non_isolated, giant, connected)
+    stdio.eprint(stdstats.mean(float(giant))) ## TypeError: 'int' object is not iterable
+    
