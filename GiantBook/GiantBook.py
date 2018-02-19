@@ -179,7 +179,7 @@ if __name__ == '__main__':
                     connected = round_num
                     connected_timings.append(connected)
 
-            # print(n, non_isolated, giant, connected)
+            print(n, non_isolated, giant, connected) # OUTCOME OF NON-ISOLATED AND CONNECTED ARE ALWAYS NONE. PLEASE HELP TO FIX
 
         if len(giant_timings):
             giant_mean = stdstats.mean(giant_timings)
