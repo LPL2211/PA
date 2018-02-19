@@ -6,8 +6,8 @@
 from __future__ import print_function
 import sys
  
-N = int(sys.stdin.readline())
-vals = list(map(int, sys.stdin.readlines()))
+N = int(sys.stdin.readline()) # Provided by teacher, don't change
+vals = list(map(int, sys.stdin.readlines())) # Provided by teacher, don't change
 vals.sort()
 if len(vals) <= 3:
     print(False)
@@ -17,12 +17,12 @@ else:
             k = j + 1
             l = N - 1
             while k < l:
-                if vals[i] + vals[j] + vals[k] + vals[l] == 0:
-                    print(i, j, k, l, file=sys.stderr)
+                if vals[i] + vals[j] + vals[k] + vals[l] == 0: # Provided by teacher, don't change
+                    print(i, j, k, l, file=sys.stderr) # Provided by teacher, don't change
                     k = k + 1
                     l = l - 1
-                    print(True)
-                    sys.exit()
+                    print(True) # Provided by teacher, don't change
+                    sys.exit() # Provided by teacher, don't change
                 elif vals[i] + vals[j] + vals[k] + vals[l] < 0:
                     k = k + 1
                 else:
