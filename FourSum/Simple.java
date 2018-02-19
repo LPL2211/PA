@@ -1,3 +1,8 @@
+// Requirement: Find in a given array 4 numbers which sum up to 0
+// Problem: Test with input Bfalse.txt, get wrong outcome. Expected outcome should be False but mine is True. 
+// Is that because Bfalse.txt contains duplicates(2 times of number 4)?
+// Can you implement Binary Search in Java for this assignment:?
+
 import java.util.Scanner;
 import java.util.Arrays;
  
