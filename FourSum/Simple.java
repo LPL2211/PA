@@ -10,10 +10,10 @@ public class FourSum {
  
     // print distinct 4-tuples (i, j, k, l) such that a[i] + a[j] + a[k] + a[l] = 0
  
-    public static void main(String[] args) {
-        Scanner S = new Scanner(System.in);
-        int n = Integer.parseInt(S.nextLine());
-        long[] a = new long[n];
+    public static void main(String[] args) { // Provided by teacher, don't change
+        Scanner S = new Scanner(System.in); // Provided by teacher, don't change
+        int n = Integer.parseInt(S.nextLine()); // Provided by teacher, don't change
+        long[] a = new long[n]; // Provided by teacher, don't change
  
         if ( a.length < 4) {
             System.out.println("False");
@@ -25,9 +25,9 @@ public class FourSum {
                         for (int l = k + 1; l < n; l++) {
                             long sum = a[i] + a[j] + a[k] + a[l];
                             if (sum == 0) {
-                                System.err.println(i + " " + j + " " + k + " " + l);
-                                System.out.println("True");
-                                System.exit(0);
+                                System.err.println(i + " " + j + " " + k + " " + l); // Provided by teacher, don't change
+                                System.out.println("True"); // Provided by teacher, don't change
+                                System.exit(0); // Provided by teacher, don't change
                             } else if (sum > 0) {
                                 System.out.println("False");
  
