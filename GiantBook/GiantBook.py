@@ -1,13 +1,9 @@
-## Still doesn't work with random number (see below)
-## Get error when finding mean and sdtdev using stdstats. TypeError: 'int' object is not iterable
-## What is T in this source code?
+## Still doesn't work with random number (see below) --> Fixed
+## Get error when finding mean and sdtdev using stdstats. TypeError: 'int' object is not iterable --> Fixed
+## What is T in this source code? It's the variable "round_num"
 
 from __future__ import division
-
 from algs4.stdlib import stdio, stdrandom, stdstats
-
-from algs4.stdlib.stdio import eprint
-
 
 
 class MyUnionFind:
@@ -114,32 +110,111 @@ class MyUnionFind:
 
         return self._parent[p]
 
+
 if __name__ == '__main__':
 
-    n = 100
+    n = 10
+
+    # To calculate the mean, std_deviation, etc with random numbers
+    # we need to run the experiment "num_episodes" times.
+    num_episodes = 100
+    num_links_default = 2*n
 
     giant, connected, non_isolated = None, None, None
 
     uf = MyUnionFind(n)
+
+    # This is the 'T' in your book
     round_num = 0
 
-    while not stdio.isEmpty():
-        #p = stdio.readInt()
-        #q = stdio.readInt()
-        p = stdrandom.uniformInt(0, 100)
-        q = stdrandom.uniformInt(0, 100)
+    choice = input(""" Please enter
+        1 to read from the file.
+        2 for random numbers
+        3 to enter links on your own \n\t""")
 
-        round_num += 1
+    giant_timings = []
+    connected_timings = []
+    non_isolated_timings = []
 
-        uf.union(p, q)
+    if choice == "1":
+        file_path = input("Enter file path")
+        links = []
+        with open(file_path, 'r') as f:
+            contents = f.readlines()
+            n = int(contents[0].strip())
+            links = [tuple(map(int, link.split())) for link in contents[1:]]
+        for u, v in links:
+            round_num += 1
 
-        if not non_isolated and uf.isnonisolated():
-            non_isolated = round_num
-        if not giant and uf.maxsites >= n * 0.5:
-            giant = round_num
-        if not connected and uf.count == 1:
-            connected = round_num
+            uf.union(u, v)
 
-    print(n, non_isolated, giant, connected)
-    stdio.eprint(stdstats.mean(float(giant))) ## TypeError: 'int' object is not iterable
-    
+            if not non_isolated and uf.isnonisolated():
+                non_isolated = round_num
+            if not giant and uf.maxsites >= n * 0.5:
+                giant = round_num
+            if not connected and uf.count == 1:
+                connected = round_num
+
+        print(giant, connected, non_isolated)
+
+    if choice == "2":
+        for i in range(num_episodes):
+            uf = MyUnionFind(n)
+            giant, connected, non_isolated = None, None, None
+            for j in range(num_links_default):
+                p = stdrandom.uniformInt(0, n)
+                q = stdrandom.uniformInt(0, n)
+
+                round_num += 1
+
+                uf.union(p, q)
+
+                if not non_isolated and uf.isnonisolated():
+                    non_isolated = round_num
+                    non_isolated_timings.append(non_isolated)
+                if not giant and uf.maxsites >= n * 0.5:
+                    giant = round_num
+                    giant_timings.append(giant)
+                if not connected and uf.count == 1:
+                    connected = round_num
+                    connected_timings.append(connected)
+
+            # print(n, non_isolated, giant, connected)
+
+        if len(giant_timings):
+            giant_mean = stdstats.mean(giant_timings)
+            giant_median = stdstats.median(giant_timings)
+            giant_stddev = stdstats.stddev(giant_timings)
+            stdio.eprint(giant_mean, giant_median, giant_stddev)
+
+        if len(connected_timings):
+            connected_mean = stdstats.mean(connected_timings)
+            connected_median = stdstats.median(connected_timings)
+            connected_stddev = stdstats.stddev(connected_timings)
+            stdio.eprint(connected_mean, connected_median, connected_stddev)
+
+        if len(non_isolated_timings):
+            non_isolated_mean = stdstats.mean(non_isolated_timings)
+            non_isolated_median = stdstats.median(non_isolated_timings)
+            non_isolated_stddev = stdstats.stddev(non_isolated_timings)
+            stdio.eprint(non_isolated_mean, non_isolated_median, non_isolated_stddev)
+
+    if choice == "3":
+        num_links = int(input("Enter the number of links you want to enter"))
+
+        for x in range(num_links):
+            p = stdio.readInt()
+            q = stdio.readInt()
+
+            round_num += 1
+
+            uf.union(p, q)
+
+            if not non_isolated and uf.isnonisolated():
+                non_isolated = round_num
+            if not giant and uf.maxsites >= n * 0.5:
+                giant = round_num
+            if not connected and uf.count == 1:
+                connected = round_num
+
+        print(giant, connected, non_isolated)
