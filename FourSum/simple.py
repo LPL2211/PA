@@ -10,8 +10,8 @@
 from __future__ import print_function
 import sys
  
-N = int(sys.stdin.readline())
-vals = list(map(int, sys.stdin.readlines()))
+N = int(sys.stdin.readline()) # Provided by teacher, don't change
+vals = list(map(int, sys.stdin.readlines())) # Provided by teacher, don't change
 if len(vals) <= 3:
     print(False)
 else:
@@ -19,10 +19,10 @@ else:
         for j in range(i + 1, N - 2):
             for k in range(j + 1, N - 1):
                 for l in range(k + 1, N):
-                    if vals[i]+vals[j]+vals[k]+vals[l] == 0:
-                        print(i, j, k, l, file=sys.stderr)
-                        print(True)
-                        sys.exit()
+                    if vals[i]+vals[j]+vals[k]+vals[l] == 0: # Provided by teacher, don't change
+                        print(i, j, k, l, file=sys.stderr) # Provided by teacher, don't change
+                        print(True) # Provided by teacher, don't change
+                        sys.exit() # Provided by teacher, don't change
                     elif vals[i] + vals[j] + vals[k] + vals[l] < 0:
                         k = k + 1
                     else:
