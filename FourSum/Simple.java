@@ -20,6 +20,8 @@ public class FourSum {
             a[i] = S.nextLong();
         }
 
+        long start = System.nanoTime();
+
         if ( a.length < 4) {
             System.out.println("False");
         } else {
@@ -32,6 +34,8 @@ public class FourSum {
                             if (sum == 0) {
                                 System.err.println(a[i] + " " + a[j] + " " + a[k] + " " + a[l]); // Provided by teacher, don't change
                                 System.out.println("True"); // Provided by teacher, don't change
+                                long time = System.nanoTime() - start;
+                                System.out.println(time);
                                 System.exit(0); // Provided by teacher, don't change
                             }
                         }
@@ -39,6 +43,8 @@ public class FourSum {
                 }
             }
             System.out.println("False");
+            long time = System.nanoTime() - start;
+            System.out.println(time);
         }
     }
 }
