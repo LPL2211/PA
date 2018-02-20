@@ -5,27 +5,57 @@
 
 from __future__ import print_function
 import sys
- 
+import time
+
+
 N = int(sys.stdin.readline()) # Provided by teacher, don't change
+
+"""
+# was not working in my interpreter
 vals = list(map(int, sys.stdin.readlines())) # Provided by teacher, don't change
-vals.sort()
-if len(vals) <= 3:
-    print(False)
-else:
-    for i in range(0, N - 3):
-        for j in range(i + 1, N - 2):
-            k = j + 1
-            l = N - 1
-            while k < l:
-                if vals[i] + vals[j] + vals[k] + vals[l] == 0: # Provided by teacher, don't change
-                    print(i, j, k, l, file=sys.stderr) # Provided by teacher, don't change
-                    k = k + 1
-                    l = l - 1
-                    print(True) # Provided by teacher, don't change
-                    sys.exit() # Provided by teacher, don't change
-                elif vals[i] + vals[j] + vals[k] + vals[l] < 0:
-                    k = k + 1
-                else:
-                    l = l - 1
-                    print(False)
-                    sys.exit()
+"""
+
+vals = []
+for x in range(N):
+    vals.append(int(input()))
+
+
+def four_sum(vals):
+    vals.sort()
+    result = False
+
+    if len(vals) <= 3:
+        return result
+    else:
+        # fix first elem
+        for i in range(N - 3):
+            # fix second elem
+            for j in range(i + 1, N - 2):
+                # third elem
+                k = j + 1
+                # fourth elem
+                l = N - 1
+                while k < l:
+                    val_sum = vals[i] + vals[j] + vals[k] + vals[l]
+                    if val_sum == 0: # Provided by teacher, don't change
+                        result = True
+                        print(i, j, k, l, file=sys.stderr) # Provided by teacher, don't change
+                        return result
+                        """
+                        print(True) # Provided by teacher, don't change
+                        sys.exit() # Provided by teacher, don't change
+                        """
+                    elif val_sum < 0:
+                        k = k + 1
+                    else:
+                        l = l - 1
+        return result
+
+
+def measure_exec_time(func, *args):
+    start = time.time()
+    print(func(*args))
+    return time.time() - start
+
+
+print(measure_exec_time(four_sum, vals))
