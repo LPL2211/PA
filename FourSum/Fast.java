@@ -16,6 +16,8 @@ public class FourSum {
         long[] a = new long[n];
         int desired_sum = 0;
 
+        long start = System.nanoTime();
+
         for (int i = 0; i < n; i++)
         {
             a[i] = S.nextLong();
@@ -32,12 +34,16 @@ public class FourSum {
                         if (binarySearch(a, k+1, n-1, to_find) != -1) {
                         	System.err.println(a[i] + " " + a[j] + " " + a[k] + " " + to_find);
                             System.out.println("True");
+                            long time = System.nanoTime() - start;
+                            System.out.println(time);
                             System.exit(0);
                         }
                     }
                 }
             }
             System.out.println("False");
+            long time = System.nanoTime() - start;
+            System.out.println(time);
         }
     }
 
