@@ -8,25 +8,11 @@ import sys
 import time
 
 
-N = int(sys.stdin.readline()) # Provided by teacher, don't change
-
-"""
-# was not working in my interpreter
-vals = list(map(int, sys.stdin.readlines())) # Provided by teacher, don't change
-"""
-
-vals = []
-for x in range(N):
-    vals.append(int(input()))
-
-
 def four_sum(vals):
     vals.sort()
     result = False
 
-    if len(vals) <= 3:
-        return result
-    else:
+    if len(vals) >= 3:
         # fix first elem
         for i in range(N - 3):
             # fix second elem
@@ -49,7 +35,7 @@ def four_sum(vals):
                         k = k + 1
                     else:
                         l = l - 1
-        return result
+    return result
 
 
 def measure_exec_time(func, *args):
@@ -58,4 +44,16 @@ def measure_exec_time(func, *args):
     return time.time() - start
 
 
-print(measure_exec_time(four_sum, vals))
+if __name__ == "__main__":
+    N = int(sys.stdin.readline()) # Provided by teacher, don't change
+
+    """
+    # was not working in my interpreter
+    vals = list(map(int, sys.stdin.readlines())) # Provided by teacher, don't change
+    """
+
+    vals = []
+    for x in range(N):
+        vals.append(int(input()))
+
+    print(measure_exec_time(four_sum, vals))
