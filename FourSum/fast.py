@@ -46,7 +46,6 @@ def measure_exec_time(func, *args):
 
 if __name__ == "__main__":
     N = int(sys.stdin.readline()) # Provided by teacher, don't change
-
     """
     # was not working in my interpreter
     vals = list(map(int, sys.stdin.readlines())) # Provided by teacher, don't change
@@ -56,4 +55,4 @@ if __name__ == "__main__":
     for x in range(N):
         vals.append(int(input()))
 
-    print(measure_exec_time(four_sum, vals))
+    exec_time = measure_exec_time(four_sum, vals)
