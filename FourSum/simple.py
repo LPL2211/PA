@@ -20,10 +20,10 @@ def four_sum(vals):
         for i in range(N - 3):
             # fix second elem
             for j in range(i + 1, N - 2):
-                # third elem
-                for k in range(j+1, N-1):
+                # third elements
+                for k in range(j + 1, N - 1):
                     # fourth elem
-                    for l in range(k+1, N):
+                    for l in range(k + 1, N):
                         val_sum = vals[i] + vals[j] + vals[k] + vals[l]
                         if val_sum == 0: # Provided by teacher, don't change
                             result = True
@@ -45,13 +45,11 @@ def measure_exec_time(func, *args):
 if __name__ == "__main__":
     N = int(sys.stdin.readline()) # Provided by teacher, don't change
 
-    """
     # was not working in my interpreter
-    vals = list(map(int, sys.stdin.readlines())) # Provided by teacher, don't change
-    """
+    # vals = list(map(int, sys.stdin.readlines())) # Provided by teacher, don't change
 
     vals = []
     for x in range(N):
         vals.append(int(input()))
 
-    print(measure_exec_time(four_sum, vals))
+    exec_time = measure_exec_time(four_sum, vals)
