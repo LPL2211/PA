@@ -1,13 +1,11 @@
-from collections import OrderedDict
 import heapq
 import math
 
-TESTFILE = "1990-in.txt"
-
-file_contents = []
 
 # Uncomment this if you want to read from a file
 """
+TESTFILE = "1990-in.txt"
+file_contents = []
 with open(TESTFILE, 'r') as f:
     file_contents = f.readlines()
 
@@ -28,9 +26,13 @@ for i in range(1, num_states):
     state_population = int(file_contents[2 * i + 1])
 """
 
+
 for i in range(num_states):
     state_name = input().strip()
     state_population = int(input())
+
+    # every state is allocated at least one seat
+    allocation[state_name] = {"seats": 1, "population": state_population}
 
     state_population = state_population/math.sqrt(2)
 
@@ -40,9 +42,6 @@ for i in range(num_states):
     # The key for the priority queue is state_population and
     # the value is state_name.
     heap.append((-state_population, state_name))
-    # every state is allocated at least one seat
-    # allocation[state_name] = 1
-    allocation[state_name] = {"seats": 1, "population": state_population}
 
 # this function heapifies our python list `heap` to form
 # priority queue
@@ -62,10 +61,5 @@ for _ in range(seats_left):
 
     heapq.heappush(heap, (-population, state))
 
-# dictionary can't be sorted in Python, so OrderedDict comes to
-# our rescue. It's not necessary but this will allow us print
-# results in sorted order
-sorted_allocation = OrderedDict(sorted(allocation.items()))
-
-for state, state_info in sorted_allocation.items():
+for state, state_info in allocation.items():
     print(state, state_info["seats"])
