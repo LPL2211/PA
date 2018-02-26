@@ -28,7 +28,7 @@ for i in range(1, num_states):
 """
 
 for i in range(num_states):
-    state_name = input().strip()
+    state_name = input().strip() + "_" + str(i)
     state_population = int(input())
 
     # every state is allocated at least one seat
@@ -55,4 +55,4 @@ for _ in range(seats_left):
     pq.insert((population, state))
 
 for state, state_info in allocation.items():
-    print(state, state_info["seats"])
+    print(state.split("_")[0], state_info["seats"])
