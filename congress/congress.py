@@ -18,6 +18,7 @@ num_seats = int(input())
 
 heap = []
 allocation = {}
+## EMILY ASKS: WHY heap = [] AND allocation = {}? WHY NOT DEFINE BOTH WITH [] OR {}?
 
 # To read from a file, uncomment this
 """
@@ -63,3 +64,5 @@ for _ in range(seats_left):
 
 for state, state_info in allocation.items():
     print(state.split('_')[0], state_info["seats"])
+    ## EMILY ASKES: CAN YOU PLEASE EXPLAIN WHY THIS SCRIPT ABOVE ALLOW DUPLICATES OF state_name BUT THIS ONE IS NOT: print(state, state_info["seats"])
+
