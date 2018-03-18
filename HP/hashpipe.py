@@ -22,11 +22,20 @@ class Pipe:
         """
         Prints the references from pipe in the order of top to bottom.
         """
-        return str(self.boxes)
+        res = []
+        for pipe in self.boxes:
+            if pipe:
+                res.append(pipe.key)
+            else:
+                res.append(None)
+        return str(res)
 
     @property
     def top_reference(self):
-        return self._top_reference
+        i = 0
+        while i < self.height and self._boxes[i] is not None:
+            i += 1
+        return i - 1
 
     @property
     def next_pipe(self):
@@ -47,8 +56,12 @@ class HashPipe:
         new_pipe = Pipe(key, val, height)
 
         if predecessor is None:
-            old_ref = self.root._boxes[0]
-            self.root._boxes[0] = new_pipe
+            for i in range(height):
+                old_ref = self.root._boxes[i]
+                self.root._boxes[i] = new_pipe
+                new_pipe._boxes[i] = old_ref
+            new_pipe._top_reference = height - 1
+            self.root._top_reference = max(self.root.top_reference, height - 1)
             return
 
         if predecessor.key == key:
@@ -69,6 +82,8 @@ class HashPipe:
                                min(next_pipe.height, height)):
                     new_pipe._boxes[i] = next_pipe
             predecessor_height = next_pipe.height
+
+        new_pipe._top_reference = height - 1
 
     def get(self, key):
         pipe = self.lookup(self.root, key)
@@ -110,7 +125,10 @@ class HashPipe:
         """
         Returns the key referenced at height `height`.
         """
-        pass
+        pipe = self.lookup(self.root, key)
+        if pipe:
+            return pipe._boxes[height].key
+        return None
 
     def create_string_to_debug(self, pipe, string_so_far):
         if pipe is None:
@@ -151,5 +169,4 @@ hp = HashPipe()
 
 for idx, char in enumerate(string):
     hp.put(char, idx)
-
-print(hp)
+    print(hp)
