@@ -23,18 +23,6 @@ class Pipe:
         """
         return self._boxes[::-1]
 
-    def __str__(self):
-        """
-        Prints the references from pipe in the order of top to bottom.
-        """
-        res = []
-        for pipe in self.boxes:
-            if pipe:
-                res.append(pipe.key)
-            else:
-                res.append(".")
-        return " ".join(res)
-
     @property
     def top_reference(self):
         return self._top_reference
@@ -56,16 +44,16 @@ class HashPipe:
         pass
 
     def put(self, key, val):
-        if self.exists(key):
-            self.lookup(self.root, key).value = val
-            return
 
         predecessor = self.floor(self.root, key, self.root)
+
+        if predecessor.key == key:
+            predecessor.value = val
+            return
+
         height = calculate_pipe_height(key)
         new_pipe = Pipe(key, val, height)
         new_pipe.previous_pipe = predecessor
-
-        # print("predecessor is {}".format(predecessor.key))
 
         # min element till now
         if predecessor.value is "ROOT":
@@ -115,11 +103,12 @@ class HashPipe:
                 predecessor = predecessor.previous_pipe
 
     def get(self, key):
-        pipe = self.lookup(self.root, key)
-        return pipe.value if pipe else None
+        pipe = self.floor(self.root, key, self.root)
+        return pipe.value if pipe and pipe.key==key else None
 
     def exists(self, key):
-        return True if self.lookup(self.root, key) else False
+        p = self.floor(self.root, key, self.root)
+        return True if p and p.key == key else False
 
     def lookup(self, start, key):
         if start.key == key:
@@ -171,7 +160,7 @@ class HashPipe:
                     cand = refs[top_ref]
                     res = self.floor(refs[top_ref], key, cand)
                     if res:
-                        cand = res
+                        return res
                 top_ref -= 1
 
         return cand
@@ -180,11 +169,11 @@ class HashPipe:
         """
         Returns the key referenced at height `height`.
         """
-        pipe = self.lookup(self.root, key)
-        if pipe:
-            return pipe.key_at_height(height)
+        if self.exists(key):
+            return self.floor(self.root, key, self.root).key_at_height(height)
         else:
             return None
+
 
 def calculate_pipe_height(key):
     hash_code = java_string_hash(key)
@@ -197,23 +186,23 @@ def calculate_pipe_height(key):
     return num_trailing_zeroes + 1
 
 
-import string
-# ex = list('SEARCHEXAMPLE')
-ex = [ str(i) for i in range(5000) ]
-# ex = [ str(i) for i in range(5000)]
-H =  HashPipe()
-j=0
-for k in ex:
-    print("Insert: ", k)
-    H.put(k, j)
-    cl = [ H.control(-float('inf'), h) for h in range(32) ]
-    #        print(cl)
-    # print( " ".join(x if x else '.' for x in cl) + "  : " + "ROOT" )
-    for g in range(j+1):
-        cl = [ H.control(ex[g], h) for h in range(32) ]
-        #        print(cl)
-        pipe = H.lookup(H.root, ex[g])
-        prev = pipe.previous_pipe.key if pipe.previous_pipe else "None"
-        nxt = pipe.next_pipe.key if pipe.next_pipe else "None"
-        # print( " ".join(x if x else '.' for x in cl) + "  : " + ex[g] + " {} {}".format(pipe.height, prev, nxt))
-    j += 1
+# import string
+# # ex = list('SEARCHEXAMPLE')
+# ex = [ str(i) for i in range(5000) ]
+# # ex = [ str(i) for i in range(5000)]
+# H =  HashPipe()
+# j=0
+# for k in ex:
+#     print("Insert: ", k)
+#     H.put(k, j)
+#     cl = [ H.control(-float('inf'), h) for h in range(32) ]
+#     #        print(cl)
+#     # print( " ".join(x if x else '.' for x in cl) + "  : " + "ROOT" )
+#     for g in range(j+1):
+#         cl = [ H.control(ex[g], h) for h in range(32) ]
+#         #        print(cl)
+#         pipe = H.lookup(H.root, ex[g])
+#         prev = pipe.previous_pipe.key if pipe.previous_pipe else "None"
+#         nxt = pipe.next_pipe.key if pipe.next_pipe else "None"
+#         # print( " ".join(x if x else '.' for x in cl) + "  : " + ex[g] + " {} {}".format(pipe.height, prev, nxt))
+#     j += 1
