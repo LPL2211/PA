@@ -110,32 +110,6 @@ class HashPipe:
         p = self.floor(self.root, key, self.root)
         return True if p and p.key == key else False
 
-    def lookup(self, start, key):
-        if start.key == key:
-            return start
-
-        top_ref = start.top_reference
-
-        if top_ref == -1:
-            return
-
-        elif start.value != "ROOT" and start.key > key:
-            return
-
-        elif start._boxes[top_ref].key <= key:
-            return self.lookup(start._boxes[top_ref], key)
-
-        else:
-            refs = start._boxes
-            top_ref -= 1
-            while top_ref >= 0:
-                res = self.lookup(refs[top_ref], key)
-                if res:
-                    return res
-                top_ref -= 1
-
-        return None
-
     def floor(self, start, key, cand):
         if start.key == key:
             return start
@@ -186,23 +160,23 @@ def calculate_pipe_height(key):
     return num_trailing_zeroes + 1
 
 
-# import string
-# # ex = list('SEARCHEXAMPLE')
-# ex = [ str(i) for i in range(5000) ]
-# # ex = [ str(i) for i in range(5000)]
-# H =  HashPipe()
-# j=0
-# for k in ex:
-#     print("Insert: ", k)
-#     H.put(k, j)
-#     cl = [ H.control(-float('inf'), h) for h in range(32) ]
-#     #        print(cl)
-#     # print( " ".join(x if x else '.' for x in cl) + "  : " + "ROOT" )
-#     for g in range(j+1):
-#         cl = [ H.control(ex[g], h) for h in range(32) ]
-#         #        print(cl)
-#         pipe = H.lookup(H.root, ex[g])
-#         prev = pipe.previous_pipe.key if pipe.previous_pipe else "None"
-#         nxt = pipe.next_pipe.key if pipe.next_pipe else "None"
-#         # print( " ".join(x if x else '.' for x in cl) + "  : " + ex[g] + " {} {}".format(pipe.height, prev, nxt))
-#     j += 1
+import string
+# ex = list('SEARCHEXAMPLE')
+ex = [ str(i) for i in range(5000) ]
+# ex = [ str(i) for i in range(5000)]
+H =  HashPipe()
+j=0
+for k in ex:
+    print("Insert: ", k)
+    H.put(k, j)
+    cl = [ H.control(-float('inf'), h) for h in range(32) ]
+    #        print(cl)
+    # print( " ".join(x if x else '.' for x in cl) + "  : " + "ROOT" )
+    for g in range(j+1):
+        cl = [ H.control(ex[g], h) for h in range(32) ]
+        #        print(cl)
+        pipe = H.floor(H.root, ex[g])
+        prev = pipe.previous_pipe.key if pipe.previous_pipe else "None"
+        nxt = pipe.next_pipe.key if pipe.next_pipe else "None"
+        # print( " ".join(x if x else '.' for x in cl) + "  : " + ex[g] + " {} {}".format(pipe.height, prev, nxt))
+    j += 1
