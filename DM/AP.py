@@ -277,7 +277,7 @@ class ImprovedApriori(Apriori):
         return result
 
 """
-HOW TO turn dataS dataframe or read dataS.txt into a list like the dataS list below?
+HOW TO turn dataS dataframe or read dataS.csv into a list like the dataS list below?
 """
 
 
