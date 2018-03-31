@@ -65,7 +65,6 @@ class Base(object):
 class Apriori(Base):
     """A simple implementation of Apriori algorithm
         Example:
-        
         dataset = [
             ['bread', 'milk'],
             ['bread', 'diaper', 'beer', 'egg'],
@@ -280,8 +279,24 @@ class ImprovedApriori(Apriori):
 HOW TO turn dataS dataframe or read dataS.csv into a list like the dataS list below?
 """
 
+"""
+You can use pandas to handle csv files.
+Use the command `pip install pandas` to install pandas first.
+"""
 
+import pandas as pd
 
+dataframe = pd.read_csv("dataS.csv")
+
+item_set = []
+
+for idx, row in dataframe.iterrows():
+    items = [item for item in row.tolist() if not pd.isnull(item)]
+    item_set.append(items)
+
+dataS = item_set
+
+"""
 dataS = [
             ['Bus'],
             ['Bike'],
@@ -365,29 +380,22 @@ dataS = [
             ['Metro'],
             ['Bus','Metro'],
         ]
-          
 """
-
 minsup = minconf = 0.1
 
 if __name__ == '__main__':
-   
-    """
-    # test1
     apriori = Apriori(dataS, minsup, minconf)
     apriori.run()
     apriori.print_frequent_itemset()
     apriori.print_rule()
- 
 
     # test2
     apriori = Apriori(dataS, minsup, minconf)
     apriori.set_selected_items(['AngryBirds','Wordfeud'])
     apriori.run()
     apriori.print_frequent_itemset()
-    apriori.print_rule()   
-  """
-  
+    apriori.print_rule()
+
     # test3
     apriori = ImprovedApriori(dataS, minsup, minconf)
     apriori.run()
@@ -399,4 +407,3 @@ if __name__ == '__main__':
     apriori.run()
     apriori.print_frequent_itemset()
     apriori.print_rule()
-    
