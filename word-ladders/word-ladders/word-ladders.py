@@ -1,6 +1,8 @@
 from collections import Counter, defaultdict
 import os
+import queue as q
 import pprint
+import time
 
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -64,22 +66,22 @@ class Graph:
             print([], -1)
 
     def bfs(self, start, target):
-        queue = []
+        queue = q.Queue()
 
-        queue.append([start])
-        queue.append(["NULL"])
+        queue.put([start])
+        queue.put(["NULL"])
         visited = {vertex: False for vertex in self.graph}
 
         level = 0
 
         while queue:
 
-            path = queue.pop(0)
+            path = queue.get()
 
             if path == ["NULL"]:
                 level += 1
-                queue.append(["NULL"])
-                path = queue.pop(0)
+                queue.put(["NULL"])
+                path = queue.get()
                 if path == ["NULL"]:
                     break
 
@@ -93,12 +95,13 @@ class Graph:
                 if visited[i] == False:
                     new_path = list(path)
                     new_path.append(i)
-                    queue.append(new_path)
+                    queue.put(new_path)
 
         return [], -1
 
 
 if __name__ == "__main__":
+    start = time.time()
     for tc in test_cases:
         graph_file = graph_file_format.format(tc)
         input_file = input_format.format(tc)
@@ -129,3 +132,7 @@ if __name__ == "__main__":
             expected_results = f.read()
 
         print(expected_results)
+
+    end = time.time()
+    print("{} seconds".format(start-end))
+
